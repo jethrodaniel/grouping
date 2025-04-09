@@ -2,11 +2,13 @@ PATH
   remote: .
   specs:
     grouping (0.1.0)
+      csv (~> 3.3)
 
 GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.3)
+    csv (3.3.3)
     date (3.4.1)
     diff-lcs (1.6.1)
     io-console (0.8.0)
