@@ -2,10 +2,10 @@
 
 RSpec.describe Grouping do
   it "has a version number" do
-    expect(Grouping::VERSION).not_to be nil
+    expect(Grouping::VERSION).not_to be_nil
   end
 
   it "does something useful" do
-    expect(false).to eq(true)
+    expect(false).to be(true)
   end
 end

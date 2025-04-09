@@ -1,0 +1,8 @@
+inherit_gem:
+  rubocop-lazy-config: rubocop.yml
+
+Rails:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Max: 20

@@ -6,8 +6,8 @@ source "https://rubygems.org"
 gemspec
 
 gem "irb"
-gem "rake", "~> 13.0"
-
-gem "rspec", "~> 3.0"
-
-gem "standard", "~> 1.3"
+gem "pry", "~> 0.15.2"
+gem "pry-byebug", "~> 3.11"
+gem "rake"
+gem "rspec"
+gem "rubocop-lazy-config", github: "jethrodaniel/rubocop-lazy-config"
