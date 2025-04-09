@@ -1,3 +1,10 @@
 #!/usr/bin/env ruby
 
 require "grouping"
+
+input_io = ARGF
+output_io = $stdout
+strategy = Grouping::Strategies::SameEmail.new
+sequence = Grouping::Sequences::IntegerSequence.new
+
+Grouping.group(input_io:, output_io:, strategy:, sequence:)
