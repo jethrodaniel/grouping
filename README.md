@@ -30,7 +30,7 @@ Then run `bundle install`.
 There's a basic [CLI](exe/grouping) program included:
 
 ```
-$ bundle exec grouping
+$ grouping
 
 Usage: grouping [...COLUMNS]
 
@@ -56,7 +56,7 @@ require "grouping"
 input_io = File.open('input.csv', 'r')
 output_io = File.open('output.csv', 'w')
 
-# This is the only supported option currently, but you can use anything that
+# This is the only builtin option currently, but you can use anything that
 # generates unique sequence values when `.next` is called.
 #
 # For example:
