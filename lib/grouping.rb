@@ -47,8 +47,6 @@ module Grouping
       attr_reader :columns
     end
 
-    private_constant :AnyOfColumns
-
     SAME_EMAIL = AnyOfColumns.new(%w[Email1 Email2])
     SAME_PHONE = AnyOfColumns.new(%w[Phone1 Phone2])
     SAME_EMAIL_OR_PHONE = AnyOfColumns.new(%w[Email1 Email2 Phone1 Phone2])

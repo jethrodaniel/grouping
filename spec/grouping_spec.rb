@@ -22,6 +22,18 @@ RSpec.describe Grouping do
     let(:output_io) { StringIO.new }
     let(:sequence) { described_class::Sequences::IntegerSequence.new }
 
+    context "when an unexpected error is encountered" do
+      let(:strategy) { instance_double(Grouping::Strategies::AnyOfColumns) }
+
+      it "wraps the error" do
+        allow(strategy).to receive(:fetch_or_set_id).and_raise(StandardError.new("oof"))
+
+        expect {
+          described_class.group(input_io:, output_io:, strategy:, sequence:)
+        }.to raise_error(Grouping::Error, "StandardError: oof")
+      end
+    end
+
     context "when strategy is SAME_EMAIL" do
       let(:strategy) { Grouping::Strategies::SAME_EMAIL }
 
