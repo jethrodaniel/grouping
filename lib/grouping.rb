@@ -18,46 +18,40 @@ module Grouping
   end
 
   module Strategies
-    class SameEmail
-      def call identifiers, sequence, row
-        field = row["Email1"]
-
-        if identifiers.key? field
-          identifiers[field]
-        else
-          identifiers[field] = sequence.next
-        end
+    class AnyOfColumns
+      def initialize columns
+        @columns = columns
       end
-    end
 
-    class SamePhone
-      def call identifiers, sequence, row
-        field = row["Phone1"]
+      def fetch_or_set_id identifiers, sequence, row
+        user_exists = columns.any? { |column| identifiers.key?(row.fetch(column)) }
 
-        if identifiers.key? field
-          identifiers[field]
-        else
-          identifiers[field] = sequence.next
-        end
-      end
-    end
-
-    class SameEmailOrPhone
-      def call identifiers, sequence, row
-        fields = %w[Email1 Phone1]
-
-        id = if fields.any? { |field| identifiers.key?(row[field]) }
-          field = fields.find { |field| identifiers.key?(row[field]) }
-          identifiers[row[field]]
+        id = if user_exists
+          column = columns.find { |column| identifiers.key?(row.fetch(column)) }
+          field = row.fetch(column)
+          identifiers.fetch(field)
         else
           sequence.next
         end
 
-        fields.each { |field| identifiers[row[field]] = id }
+        columns.each do |column|
+          field = row.fetch(column)
+          identifiers[field] = id unless field.nil?
+        end
 
         id
       end
+
+      private
+
+      attr_reader :columns
     end
+
+    private_constant :AnyOfColumns
+
+    SAME_EMAIL = AnyOfColumns.new(%w[Email1 Email2])
+    SAME_PHONE = AnyOfColumns.new(%w[Phone1 Phone2])
+    SAME_EMAIL_OR_PHONE = AnyOfColumns.new(%w[Email1 Email2 Phone1 Phone2])
   end
 
   USER_ID_COLUMN = :user_id
@@ -73,7 +67,7 @@ module Grouping
         output_io.puts CSV.generate_line(headers)
       end
 
-      id = strategy.call(identifiers, sequence, row)
+      id = strategy.fetch_or_set_id(identifiers, sequence, row)
 
       output_io.puts CSV.generate_line([id] + row.fields)
     end
