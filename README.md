@@ -27,7 +27,7 @@ Then run `bundle install`.
 
 ### CLI
 
-There's a basic [CLI](exe/grouping) program included:
+If you call the CLI without arguments, you'll get help output:
 
 ```
 $ grouping
