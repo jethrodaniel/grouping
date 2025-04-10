@@ -6,3 +6,7 @@ Rails:
 
 RSpec/ExampleLength:
   Max: 20
+
+AllCops:
+  Exclude:
+    - 'vendor/**/*'
