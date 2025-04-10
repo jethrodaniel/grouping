@@ -60,15 +60,19 @@ module Grouping
     end
   end
 
+  USER_ID_COLUMN = :user_id
+
   def self.group input_io:, output_io:, strategy:, sequence:
     input_enum = CSV.new(input_io, headers: true).each
-    headers = input_enum.next.headers
-
-    output_io.puts CSV.generate_line(%w[user_id] + headers)
 
     identifiers = {}
 
-    input_enum.each do |row|
+    input_enum.each_with_index do |row, index|
+      if index.zero?
+        headers = [USER_ID_COLUMN] + row.headers
+        output_io.puts CSV.generate_line(headers)
+      end
+
       id = strategy.call(identifiers, sequence, row)
 
       output_io.puts CSV.generate_line([id] + row.fields)
