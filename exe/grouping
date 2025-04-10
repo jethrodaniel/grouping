@@ -4,7 +4,7 @@ require "grouping"
 
 if ARGV.empty?
   abort <<~MSG
-    Usage: #{$0} [...COLUMNS]
+    Usage: grouping [...COLUMNS]
 
     Read a CSV from stdin, and output a CSV with `user_id`s to stdout.
 
@@ -12,8 +12,8 @@ if ARGV.empty?
 
     Examples:
 
-      #{$0} Email Email1 < input.csv > output.csv
-      #{$0} Zip < input.csv | sort -n
+      grouping Email Email1 < input.csv > output.csv
+      grouping Zip < input.csv | sort -n
 
   MSG
 end
