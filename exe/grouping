@@ -23,4 +23,8 @@ output_io = $stdout
 strategy = Grouping::Strategies::AnyOfColumns.new(ARGV)
 sequence = Grouping::Sequences::IntegerSequence.new
 
-Grouping.group(input_io:, output_io:, strategy:, sequence:)
+begin
+  Grouping.group(input_io:, output_io:, strategy:, sequence:)
+rescue Grouping::Error => e
+  warn e.message unless e.message.include?("Errno::EPIPE")
+end
