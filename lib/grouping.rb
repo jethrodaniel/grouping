@@ -24,18 +24,18 @@ module Grouping
       end
 
       def fetch_or_set_id identifiers, sequence, row
-        user_exists = columns.any? { |column| identifiers.key?(row.fetch(column)) }
+        user_exists = columns.any? { |column| identifiers.key?(row[column]) }
 
         id = if user_exists
-          column = columns.find { |column| identifiers.key?(row.fetch(column)) }
-          field = row.fetch(column)
+          column = columns.find { |column| identifiers.key?(row[column]) }
+          field = row[column]
           identifiers.fetch(field)
         else
           sequence.next
         end
 
         columns.each do |column|
-          field = row.fetch(column)
+          field = row[column]
           identifiers[field] = id unless field.nil?
         end
 
@@ -47,9 +47,9 @@ module Grouping
       attr_reader :columns
     end
 
-    SAME_EMAIL = AnyOfColumns.new(%w[Email1 Email2])
-    SAME_PHONE = AnyOfColumns.new(%w[Phone1 Phone2])
-    SAME_EMAIL_OR_PHONE = AnyOfColumns.new(%w[Email1 Email2 Phone1 Phone2])
+    SAME_EMAIL = AnyOfColumns.new(%w[Email Email1 Email2])
+    SAME_PHONE = AnyOfColumns.new(%w[Phone Phone1 Phone2])
+    SAME_EMAIL_OR_PHONE = AnyOfColumns.new(%w[Email Email1 Email2 Phone Phone1 Phone2])
   end
 
   USER_ID_COLUMN = :user_id
