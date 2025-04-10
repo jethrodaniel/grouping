@@ -2,9 +2,25 @@
 
 require "grouping"
 
-input_io = ARGF
+if ARGV.empty?
+  abort <<~MSG
+    Usage: #{$0} [...COLUMNS]
+
+    Read a CSV from stdin, and output a CSV with `user_id`s to stdout.
+
+    Columns that don't exist in the input are ignored.
+
+    Examples:
+
+      #{$0} Email Email1 < input.csv > output.csv
+      #{$0} Zip < input.csv | sort -n
+
+  MSG
+end
+
+input_io = $stdin
 output_io = $stdout
-strategy = Grouping::Strategies::SameEmail.new
+strategy = Grouping::Strategies::AnyOfColumns.new(ARGV)
 sequence = Grouping::Sequences::IntegerSequence.new
 
 Grouping.group(input_io:, output_io:, strategy:, sequence:)
