@@ -175,4 +175,4 @@ DEPENDENCIES
   rubocop-lazy-config!
 
 BUNDLED WITH
-   2.7.0.dev
+   2.6.2
